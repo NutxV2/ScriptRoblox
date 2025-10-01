@@ -74,10 +74,10 @@ local beli = LocalPlayer.Data.Beli.Value
 local fragments = LocalPlayer.Data.Fragments.Value
 
 -- Values
-local nameValue = createValueCard(name, 2, Color3.fromRGB(237, 37, 0), 75)
-local levelValue = createValueCard("LV : " .. tostring(level), 3, Color3.fromRGB(250, 204, 21), 50) -- ตัวใหญ่
-local BeliValue = createValueCard("$ : " .. tostring(beli), 4, Color3.fromRGB(34, 197, 94), 50)
-local FragmentsValue = createValueCard("F : " .. tostring(fragments), 5, Color3.fromRGB(140, 0, 150), 50)
+local nameValue = createValueCard(name, 2, Color3.fromRGB(255, 115, 0), 75)
+local levelValue = createValueCard("LV : " .. tostring(level), 3, Color3.fromRGB(234, 255, 0), 50) -- ตัวใหญ่
+local BeliValue = createValueCard("$ : " .. tostring(beli), 4, Color3.fromRGB(0, 255, 47), 50)
+local FragmentsValue = createValueCard("F : " .. tostring(fragments), 5, Color3.fromRGB(238, 0, 255), 50)
 local timeValue = createValueCard("0s", 6, Color3.fromRGB(59, 130, 246), 40)
 
 
