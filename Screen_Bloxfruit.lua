@@ -67,6 +67,17 @@ local function createValueCard(value, order, accentColor, textSize)
     return label
 end
 
+local function formatNumber(num)
+    if num >= 1000000 then
+        return string.format("%.1fM", num / 1000000)
+    elseif num >= 100000 then
+        return string.format("%.1fK", num / 1000)
+    elseif num >= 10000 then
+        return string.format("%.1fK", num / 1000)
+    else
+        return tostring(num)
+    end
+end
 
 local name = LocalPlayer.Character.Name
 local level = LocalPlayer.Data.Level.Value
@@ -88,11 +99,14 @@ LocalPlayer.Data.Level:GetPropertyChangedSignal("Value"):Connect(function()
 end)
 
 LocalPlayer.Data.Beli:GetPropertyChangedSignal("Value"):Connect(function()
-    BeliValue.Text = "$ : " .. tostring(LocalPlayer.Data.Beli.Value)
+    local formatted = formatNumber(LocalPlayer.Data.Beli.Value)
+    BeliValue.Text = "$ : " .. formatted
 end)
 
+-- อัปเดต Fragments
 LocalPlayer.Data.Fragments:GetPropertyChangedSignal("Value"):Connect(function()
-    FragmentsValue.Text = "F : " .. tostring(LocalPlayer.Data.Fragments.Value)
+    local formatted = formatNumber(LocalPlayer.Data.Fragments.Value)
+    FragmentsValue.Text = "F : " .. formatted
 end)
 
 
