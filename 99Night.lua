@@ -1,6 +1,10 @@
--- Lua for Executor: ส่งค่า Diamons เป็น JSON ไปยัง http://127.0.0.1:5000/diamons
+-- Lua for Executor: ส่งค่า Diamons เป็น JSON ไปยัง Server
 local HttpService = game:GetService("HttpService")
 local Players = game:GetService("Players")
+
+-- ✅ ตรวจสอบว่ามี G.SETTING หรือไม่ ถ้าไม่มีให้สร้างไว้ก่อน
+G = G or {}
+G.SETTING = G.SETTING or { device = "Unknown" }
 
 -- รอให้ LocalPlayer โหลด
 local player = Players.LocalPlayer
@@ -30,7 +34,7 @@ end
 
 -- ฟังก์ชันส่งข้อมูลไป Flask
 local function send_to_local(data)
-    local url = "https://wexstorelog.onrender.com/send_data" -- ✅ เปลี่ยนเป็น URL ของ Render และ endpoint /send_data
+    local url = "https://wexstorelog.onrender.com/send_data"
     local body = HttpService:JSONEncode(data)
 
     if http_request then
@@ -58,15 +62,16 @@ local function send_to_local(data)
     end
 end
 
-
 -- เตรียม payload
 local function prepare_payload()
-    local username = tostring(player.Name)  -- บังคับ string จริง
+    local username = tostring(player.Name)
     local diamonds = tonumber(player:GetAttribute("Diamonds")) or 0
-    print(diamonds)
+
+    -- ✅ เพิ่มข้อมูลของเครื่องจาก G.SETTING
     local payload = {
         username = username,
-        diamonds = diamonds
+        diamonds = diamonds,
+        device = G.SETTING.device  -- <<---- เพิ่มตรงนี้
     }
 
     return payload
@@ -77,7 +82,6 @@ spawn(function()
     while true do
         local payload = prepare_payload()
         send_to_local(payload)
-
-        task.wait(1) -- เวลาหน่วง (วินาที) สามารถปรับได้ตามต้องการ
+        task.wait(1)
     end
 end)
