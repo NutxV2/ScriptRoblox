@@ -1,10 +1,9 @@
--- Lua for Executor: ส่งค่า Diamons เป็น JSON ไปยัง Server
+-- Lua for Executor: ส่งค่า Diamonds เป็น JSON ไปยัง Server
 local HttpService = game:GetService("HttpService")
 local Players = game:GetService("Players")
 
--- ✅ ตรวจสอบว่ามี G.SETTING หรือไม่ ถ้าไม่มีให้สร้างไว้ก่อน
-G = G or {}
-G.SETTING = G.SETTING or { device = "Unknown" }
+-- ✅ ตรวจสอบว่ามี _G.SETTING หรือไม่ ถ้าไม่มีให้สร้างไว้ก่อน
+_G.SETTING = _G.SETTING or { device = "Unknown" }
 
 -- รอให้ LocalPlayer โหลด
 local player = Players.LocalPlayer
@@ -24,10 +23,10 @@ local function safeJsonEncode(v)
     if ok then return out end
     if type(v) == "table" then
         local t = {}
-        for k,val in pairs(v) do
+        for k, val in pairs(v) do
             table.insert(t, tostring(k) .. "=" .. tostring(val))
         end
-        return "["..table.concat(t, ",").."]"
+        return "[" .. table.concat(t, ",") .. "]"
     end
     return tostring(v)
 end
@@ -67,11 +66,11 @@ local function prepare_payload()
     local username = tostring(player.Name)
     local diamonds = tonumber(player:GetAttribute("Diamonds")) or 0
 
-    -- ✅ เพิ่มข้อมูลของเครื่องจาก G.SETTING
+    -- ✅ เพิ่มข้อมูลของเครื่องจาก _G.SETTING
     local payload = {
         username = username,
         diamonds = diamonds,
-        device = G.SETTING.device  -- <<---- เพิ่มตรงนี้
+        device = _G.SETTING.device
     }
 
     return payload
